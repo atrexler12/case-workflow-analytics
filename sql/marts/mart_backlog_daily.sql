@@ -14,11 +14,11 @@ calendar AS (
   WHERE d < end_date
 )
 SELECT
-  c.d AS date,
-  COUNT(*) AS backlog_cases
+  c.d AS snapshot_date,
+  COUNT(*) AS open_cases
 FROM calendar c
 JOIN fact_cases f
   ON DATE(f.created_at) <= c.d
  AND (f.resolved_at IS NULL OR DATE(f.resolved_at) > c.d)
-GROUP BY 1
-ORDER BY 1;
+GROUP BY c.d
+ORDER BY c.d;
